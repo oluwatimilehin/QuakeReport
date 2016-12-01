@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by timad on 30/11/2016.
@@ -23,8 +25,6 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Earthquake currentEarthquake = getItem(position);
-
         View listItemView = convertView;
 
         if(listItemView == null){
@@ -33,14 +33,28 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
             );
         }
 
+        Earthquake currentEarthquake = getItem(position);
+
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
         magnitudeTextView.setText(String.valueOf(currentEarthquake.getMagnitude()));
 
         TextView locationTextView = (TextView) listItemView.findViewById(R.id.location);
         locationTextView.setText(currentEarthquake.getLocation());
 
+        Date date = new Date(currentEarthquake.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL DD, yyyy");
+        String dateToDisplay = dateFormat.format(date);
+
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        String timeToDisplay = timeFormat.format(date);
+
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
-        dateTextView.setText(currentEarthquake.getDate());
+        dateTextView.setText(dateToDisplay);
+
+        TextView timeTextView = (TextView) listItemView.findViewById(R.id.time);
+        timeTextView.setText(timeToDisplay);
+
 
         return listItemView;
     }

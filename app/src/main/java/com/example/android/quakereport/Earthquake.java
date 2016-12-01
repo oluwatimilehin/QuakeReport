@@ -14,18 +14,21 @@ public class Earthquake {
         return mLocation;
     }
 
-    public String getDate() {
-        return mDate;
-    }
 
     private Double mMagnitude;
-    private String mLocation, mDate;
+    private String mLocation;
 
-    public Earthquake(Double magnitude, String location, String date){
+    public Long getTime() {
+        return mTime;
+    }
+
+    private Long mTime;
+
+    public Earthquake(Double magnitude, String location, Long time){
 
         mMagnitude = magnitude;
         mLocation = location;
-        mDate = date;
+        mTime = time;
     }
 
 }
