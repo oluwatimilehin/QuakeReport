@@ -42,20 +42,27 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         locationTextView.setText(currentEarthquake.getLocation());
 
         Date date = new Date(currentEarthquake.getTime());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL DD, yyyy");
-        String dateToDisplay = dateFormat.format(date);
-
-
-        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-        String timeToDisplay = timeFormat.format(date);
 
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
-        dateTextView.setText(dateToDisplay);
+        dateTextView.setText(formatDate(date));
 
         TextView timeTextView = (TextView) listItemView.findViewById(R.id.time);
-        timeTextView.setText(timeToDisplay);
+        timeTextView.setText(formatTime(date));
 
 
         return listItemView;
     }
+
+    private String formatDate(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL DD, yyyy");
+        String dateToDisplay = dateFormat.format(date);
+        return dateToDisplay;
+    }
+
+    private String formatTime(Date date){
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        String timeToDisplay = timeFormat.format(date);
+        return timeToDisplay;
+    }
+
 }
