@@ -38,7 +38,7 @@ import java.util.ArrayList;
      * Return a list of {@link Earthquake} objects that has been built up from
      * parsing a JSON response.
      */
-    public static ArrayList<Earthquake> extractEarthquakes() {
+    public static   ArrayList<Earthquake> extractEarthquakes() {
 
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<Earthquake> earthquakes = new ArrayList<>();
@@ -57,9 +57,9 @@ import java.util.ArrayList;
                     Double mag = properties.getDouble("mag");
                     String place = properties.getString("place");
                     Long time = properties.getLong("time");
+                    String url = properties.getString("url");
 
-
-                    earthquakes.add(new Earthquake(mag, place,time ));
+                    earthquakes.add(new Earthquake(mag, place,time, url ));
 
             }
 

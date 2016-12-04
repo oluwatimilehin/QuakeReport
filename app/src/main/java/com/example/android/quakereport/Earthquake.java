@@ -18,17 +18,24 @@ public class Earthquake {
     private Double mMagnitude;
     private String mLocation;
 
+    public String getUrl() {
+        return mUrl;
+    }
+
+    private String mUrl;
+
     public Long getTime() {
         return mTime;
     }
 
     private Long mTime;
 
-    public Earthquake(Double magnitude, String location, Long time){
+    public Earthquake(Double magnitude, String location, Long time, String url){
 
         mMagnitude = magnitude;
         mLocation = location;
         mTime = time;
+        mUrl = url;
     }
 
 }
