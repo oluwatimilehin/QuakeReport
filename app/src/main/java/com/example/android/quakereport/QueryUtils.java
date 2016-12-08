@@ -103,6 +103,8 @@ import java.util.ArrayList;
         try{
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.connect();
 
             if(urlConnection.getResponseCode() == 200) {
