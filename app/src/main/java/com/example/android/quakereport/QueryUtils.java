@@ -37,7 +37,6 @@ import java.util.ArrayList;
     public static   ArrayList<Earthquake> extractEarthquakes(String requiredUrl) {
 
          URL url = createUrl(requiredUrl);
-        makeNetworkRequest(url);
 
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<Earthquake> earthquakes = new ArrayList<>();
@@ -47,7 +46,7 @@ import java.util.ArrayList;
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
-             JSONObject parser = new JSONObject();
+             JSONObject parser = new JSONObject(makeNetworkRequest(url));
              JSONArray features = parser.getJSONArray("features");
             for(int i = 0; i < features.length(); i ++){
 
