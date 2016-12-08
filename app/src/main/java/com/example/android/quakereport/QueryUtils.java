@@ -36,6 +36,12 @@ import java.util.ArrayList;
      */
     public static   ArrayList<Earthquake> extractEarthquakes(String requiredUrl) {
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Log.i(QueryUtils.class.getSimpleName(), "QueryUtil method called");
 
          URL url = createUrl(requiredUrl);

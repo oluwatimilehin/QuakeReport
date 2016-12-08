@@ -87,9 +87,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public void onLoadFinished(Loader<ArrayList<Earthquake>> loader, final ArrayList<Earthquake> earthquakes) {
         adapter.clear();
 
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
 
         if (earthquakes != null && !earthquakes.isEmpty()) {
-            adapter.addAll(earthquakes);  //We're adding the data to the adapter
+           adapter.addAll(earthquakes);  //We're adding the data to the adapter
         }
         emptyTextView.setText(R.string.empty_message);
         Log.i(LOG_TAG, "OnLoadFinished() called");
