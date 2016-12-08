@@ -16,8 +16,11 @@
 package com.example.android.quakereport;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +37,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     private final String QUERY_URL ="http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
     TextView emptyTextView ;
+    View loadingIndicator;
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
@@ -68,11 +72,20 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         LoaderManager loaderManager = getLoaderManager();
 
-        // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-        // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-        // because this activity implements the LoaderCallbacks interface).
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
-        Log.i(LOG_TAG, "loader manager called");
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+            // because this activity implements the LoaderCallbacks interface).
+            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+            Log.i(LOG_TAG, "loader manager called");
+        }
+        else{
+            loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
+            emptyTextView.setText(R.string.no_network);
+        }
 
     }
 
@@ -87,7 +100,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public void onLoadFinished(Loader<ArrayList<Earthquake>> loader, final ArrayList<Earthquake> earthquakes) {
         adapter.clear();
 
-        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
         if (earthquakes != null && !earthquakes.isEmpty()) {
