@@ -1,6 +1,5 @@
 package com.example.android.quakereport;
 
-import android.app.Activity;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ import java.util.Date;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes) {
+    public EarthquakeAdapter(EarthquakeActivity context, ArrayList<Earthquake> earthquakes) {
 
         super(context, 0, earthquakes);
     }
