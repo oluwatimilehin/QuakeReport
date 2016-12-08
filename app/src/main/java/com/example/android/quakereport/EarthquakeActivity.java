@@ -21,6 +21,7 @@ import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -48,15 +49,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         adapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
         earthquakeListView.setAdapter(adapter);
-
-        LoaderManager loaderManager = getLoaderManager();
-
-        // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-        // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-        // because this activity implements the LoaderCallbacks interface).
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
-
-
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,11 +59,20 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
+        LoaderManager loaderManager = getLoaderManager();
+
+        // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+        // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+        // because this activity implements the LoaderCallbacks interface).
+        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        Log.i(LOG_TAG, "loader manager called");
 
     }
 
     @Override
     public Loader<ArrayList<Earthquake>> onCreateLoader(int id, Bundle args) {
+
+        Log.i(LOG_TAG, "OnCreateLoader() called");
         return  new EarthquakeLoader(EarthquakeActivity.this, QUERY_URL); //Here we return the loader instance
     }
 
@@ -79,13 +80,16 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public void onLoadFinished(Loader<ArrayList<Earthquake>> loader, final ArrayList<Earthquake> earthquakes) {
         adapter.clear();
 
+
         if (earthquakes != null && !earthquakes.isEmpty()) {
             adapter.addAll(earthquakes);  //We're adding the data to the adapter
         }
+        Log.i(LOG_TAG, "OnLoadFinished() called");
     }
 
     @Override
     public void onLoaderReset(Loader<ArrayList<Earthquake>> loader) {
+        Log.i(LOG_TAG, "onLoaderReset() called");
         adapter.clear();
     }
 

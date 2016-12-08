@@ -36,6 +36,8 @@ import java.util.ArrayList;
      */
     public static   ArrayList<Earthquake> extractEarthquakes(String requiredUrl) {
 
+        Log.i(QueryUtils.class.getSimpleName(), "QueryUtil method called");
+
          URL url = createUrl(requiredUrl);
 
         // Create an empty ArrayList that we can start adding earthquakes to
