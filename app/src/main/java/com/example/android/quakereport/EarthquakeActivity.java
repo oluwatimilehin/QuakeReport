@@ -19,10 +19,12 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Earthquake>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
-    private final String QUERY_URL ="http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
+    private final String QUERY_URL ="http://earthquake.usgs.gov/fdsnws/event/1/query";
     TextView emptyTextView ;
     View loadingIndicator;
     /**
@@ -113,8 +115,19 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public Loader<ArrayList<Earthquake>> onCreateLoader(int id, Bundle args) {
 
-        Log.i(LOG_TAG, "OnCreateLoader() called");
-        return  new EarthquakeLoader(EarthquakeActivity.this, QUERY_URL); //Here we return the loader instance
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String minMagnitude = sharedPrefs.getString(
+                getString(R.string.settings_min_magnitude_key),
+                getString(R.string.settings_min_magnitude_default));
+        Uri baseUri = Uri.parse(QUERY_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("format", "geojson");
+        uriBuilder.appendQueryParameter("limit", "10");
+        uriBuilder.appendQueryParameter("minmag", minMagnitude);
+        uriBuilder.appendQueryParameter("orderby", "time");
+
+        return new EarthquakeLoader(this, uriBuilder.toString());
     }
 
     @Override
